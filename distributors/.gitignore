@@ -1,33 +1,68 @@
+# =========================
+# PROJECT HELP FILES
+# =========================
 HELP.md
+
+# =========================
+# MAVEN / SPRING BOOT
+# =========================
 target/
+.distributors/target/
 .mvn/wrapper/maven-wrapper.jar
+
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# =========================
+# FRONTEND (custom project structure)
+# =========================
+distributors/frontend/images/
 
-### IntelliJ IDEA ###
-.idea
+# =========================
+# JAVA / COMPILATION OUTPUT
+# =========================
+*.class
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# =========================
+# IDE - IntelliJ IDEA
+# =========================
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# =========================
+# IDE - STS (Spring Tool Suite)
+# =========================
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# =========================
+# IDE - NetBeans
+# =========================
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+# =========================
+# IDE - VS CODE
+# =========================
 .vscode/
+
+# =========================
+# OS FILES
+# =========================
+.DS_Store
+Thumbs.db
+
+oracleJdk-*/
