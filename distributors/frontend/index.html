@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Portal</title>
+<link rel="manifest" href="manifest.json">
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#111;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+color:white;
+}
+
+.container{
+background:#1e1e1e;
+padding:60px;
+width:420px;
+border-radius:22px;
+box-shadow:0 0 25px rgba(0,0,0,.5);
+text-align:center;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+p{
+color:#aaa;
+margin-bottom:40px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin:12px 0;
+border:none;
+border-radius:10px;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.admin-btn{
+background:#FFD54F;
+}
+
+.customer-btn{
+background:#2a2a2a;
+color:white;
+}
+
+button:hover{
+opacity:0.9;
+transform:scale(1.02);
+}
+
+</style>
+
+</head>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+<body>
+
+<div class="container">
+
+<h1>Welcome</h1>
+<p>Select how you want to continue</p>
+
+<button class="admin-btn"
+onclick="goAdmin()">
+Admin Login
+</button>
+
+<button class="customer-btn"
+onclick="goCustomer()">
+Customer Login
+</button>
+
+</div>
+
+
+<script>
+
+function goAdmin(){
+window.location="admin-login.html";
+}
+
+function goCustomer(){
+window.location="customer-login.html";
+}
+
+</script>
+
+</body>
+</html>

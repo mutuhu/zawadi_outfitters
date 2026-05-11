@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zawadi Distributors</title>
+    <style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f10;
+    color: #e5e5e5;
+}
+
+h1, h2 {
+    color: #ffffff;
+}
+
+#productList, #cartList, #orderTable {
+    display: grid;
+    gap: 15px;
+}
+
+.product-card {
+    background: #1a1a1d;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+button {
+    background: #2d2d30;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #444;
+}
+
+img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+select {
+    padding: 8px;
+    background: #1a1a1d;
+    color: white;
+    border: 1px solid #333;
+}
+
+#productList{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+.hero{
+height:90vh;
+display:flex;
+align-items:center;
+padding:60px;
+background:
+linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+url('hero-uniform.jpg');
+background-size:cover;
+background-position:center;
+}
+
+.hero h1{
+font-size:64px;
+max-width:700px;
+}
+
+.hero button{
+background:#FFD54F;
+color:black;
+font-weight:bold;
+padding:15px 28px;
+border-radius:10px;
+}
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+background:#111;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.navbar h2{
+color:#FFD54F;
+letter-spacing:2px;
+}
+
+.navbar ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+.navbar a{
+text-decoration:none;
+color:white;
+font-weight:500;
+}
+
+.navbar a:hover{
+color:#FFD54F;
+}
+input{
+display:block;
+width:320px;
+padding:14px;
+margin:12px 0;
+border:none;
+border-radius:10px;
+background:#2a2a2a;
+color:white;
+}
+</style>
+</head>
+<body>
+    <nav class="navbar">
+   <h2>ZAWADI</h2>
+
+   <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Shop</a></li>
+      <li><a href="#cart">Cart</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+   </ul>
+</nav>
+
+    <section class="hero">
+  <div class="hero-text">
+      <h1>Zawadi Outfitters</h1>
+      <p>Premium uniforms for every student.</p>
+      
+
+      <button onclick="location.href='products.html'">
+        Shop Now
+      </button>
+  </div>
+</section>
+
+<h1>Products</h1>
+
+<select id="schoolFilter" onchange="loadProducts()">
+    <option value="brightvale">Brightvale Academy</option>
+    <option value="evergreen">Evergreen Scholars</option>
+</select>
+
+<div id="productList"></div>
+<h2>Cart</h2>
+<div id="cartList"></div>
+<p id="total"></p>
+<p id="paymentStatus"></p>
+
+<h2>Customer Details</h2>
+
+<input id="customerName" placeholder="Full Name">
+
+<input id="customerEmail" placeholder="Email">
+
+<input id="customerPhone" placeholder="Phone Number">
+
+
+<button onclick="simulatePayment()">
+Pay with M-Pesa
+</button>
+
+<script>
+
+// GLOBAL (accessible everywhere)
+let cart = [];
+
+// Add to cart function
+function addToCart(product) {
+
+    let existing = cart.find(item => item.id === product.id);
+
+    if(existing){
+        existing.quantity++;
+    } else{
+        product.quantity = 1;
+        cart.push(product);
+    }
+
+    renderCart();
+}
+
+function renderCart() {
+
+    let cartList = document.getElementById("cartList");
+    let totalEl = document.getElementById("total");
+
+    cartList.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach(item => {
+
+        total += item.price * item.quantity;
+
+        cartList.innerHTML += `
+            <div>
+                ${item.name}
+                x${item.quantity}
+                - ${item.price * item.quantity}
+
+                <button onclick="removeItem(${item.id})">
+                    Remove
+                </button>
+
+            </div>
+        `;
+    });
+
+    totalEl.innerText = "Total: " + total;
+}
+
+
+function removeItem(id){
+
+    cart = cart.filter(item => item.id !== id);
+
+    renderCart();
+}
+
+const productImages = {
+
+"White School Shirt-brightvale":"images/brightvale-shirt.png",
+"Grey Sweater-brightvale":"images/brightvale-sweater.png",
+"Navy Blazer-brightvale":"images/brightvale-blazer.png",
+"Grey Trousers-brightvale":"images/brightvale-trousers.png",
+"Navy Skirt-brightvale":"images/brightvale-skirt.png",
+"School Tie-brightvale":"images/brightvale-tie.png",
+"School Socks-brightvale":"images/socks.png",
+"Black Leather Shoes-brightvale":"images/shoes.png",
+"PE T-Shirt-brightvale":"images/brightvale-pe-shirt.png",
+"PE Shorts-brightvale":"images/brightvale-pe-shorts.png",
+
+"Green Sweater-evergreen":"images/evergreen-sweater.png",
+"Green Blazer-evergreen":"images/evergreen-blazer.png",
+"Khaki Trousers-evergreen":"images/evergreen-trousers.png",
+"Khaki Skirt-evergreen":"images/evergreen-skirt.png",
+"Striped Tie-evergreen":"images/evergreen-tie.png",
+"Sports Tracksuit-evergreen":"images/evergreen-tracksuit.png"
+
+};
+// Load products from backend
+async function loadProducts() {
+    let school = document.getElementById("schoolFilter").value;
+
+    let response = await fetch("http://localhost:8080/products?school=" + school);
+    let data = await response.json();
+
+    let container = document.getElementById("productList");
+    container.innerHTML = "";
+
+    data.forEach(p => {
+
+    let div = document.createElement("div");
+
+    let key = p.name + "-" + p.school;
+
+    let img =
+        productImages[key] ||
+        productImages[p.name + "-any"] ||
+        "images/default.png";
+
+
+    div.innerHTML = `
+    <div class="product-card">
+        <img src="${img}">
+
+        <h3>${p.name}</h3>
+
+        <p>Size: ${p.size}</p>
+
+        <p>Ksh ${p.price}</p>
+
+        <button>Add to Cart</button>
+    </div>
+    `;
+
+    div.querySelector("button").addEventListener("click", () => {
+        addToCart(p);
+    });
+
+    container.appendChild(div);
+
+});
+}
+
+setTimeout(()=>{
+
+alert("Payment successful ✅");
+
+placeOrder();
+
+}, 2000);
+
+
+async function placeOrder(){
+
+    if(cart.length===0){
+       alert("Cart is empty");
+       return;
+    }
+
+    let order = {
+
+customerName:
+document.getElementById("customerName").value,
+
+customerEmail:
+document.getElementById("customerEmail").value,
+
+customerPhone:
+document.getElementById("customerPhone").value,
+
+school:
+document.getElementById("schoolFilter").value,
+
+total: cart.reduce(
+(sum,item)=> sum + item.price * item.quantity,
+0
+),
+
+items: cart.map(item => ({
+productName:item.name,
+quantity:item.quantity,
+price:item.price
+}))
+};
+
+    let response = await fetch(
+      "http://localhost:8080/orders",
+      {
+         method:"POST",
+         headers:{
+             "Content-Type":"application/json"
+         },
+         body: JSON.stringify(order)
+      }
+    );
+
+    if(response.ok){
+        alert("Order placed & payment confirmed ✅");
+
+        cart = [];
+        renderCart();
+    }
+}
+
+//  Initial load
+loadProducts();
+
+</script>
+
+</body>
+</html>

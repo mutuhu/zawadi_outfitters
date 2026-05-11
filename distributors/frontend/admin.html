@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Zawadi Distributors</title>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<h2>Products</h2>
+<div id="productTable"></div>
+
+<h2>Orders</h2>
+<div id="orderTable"></div>
+
+<script>
+
+async function loadProducts(){
+
+let res =
+await fetch("http://localhost:8080/products");
+
+let data =
+await res.json();
+
+let container =
+document.getElementById("productTable");
+
+container.innerHTML="";
+
+data.forEach(p=>{
+
+container.innerHTML += `
+<div style="
+border:1px solid #ccc;
+padding:10px;
+margin-bottom:10px;
+">
+
+<b>${p.name}</b><br>
+
+School:
+${p.school}<br>
+
+Price:
+Ksh ${p.price}<br>
+
+Stock:
+${p.stock}
+
+</div>
+`;
+
+});
+
+}
+
+
+
+async function loadOrders(){
+
+let res=
+await fetch(
+"http://localhost:8080/orders"
+);
+
+let data=
+await res.json();
+
+let container=
+document.getElementById("orderTable");
+
+container.innerHTML="";
+
+
+data.forEach(o=>{
+
+let itemsHtml="";
+
+o.items.forEach(i=>{
+
+itemsHtml += `
+<li>
+${i.productName}
+x${i.quantity}
+(Ksh ${i.price})
+</li>
+`;
+
+});
+
+
+container.innerHTML += `
+
+<div style="
+border:1px solid #ccc;
+padding:15px;
+margin-bottom:20px;
+">
+
+<b>Customer:</b>
+${o.customerName}<br>
+
+<b>Email:</b>
+${o.customerEmail || ""}<br>
+
+<b>Phone:</b>
+${o.customerPhone || ""}<br>
+
+<b>School:</b>
+${o.school}<br>
+
+<b>Total:</b>
+Ksh ${o.total}<br><br>
+
+<b>Items Ordered</b>
+
+<ul>
+${itemsHtml}
+</ul>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+loadProducts();
+loadOrders();
+
+</script>
+
+</body>
+</html>
